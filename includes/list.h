@@ -12,13 +12,14 @@ typedef double elem_t;
 const int Max_Dot_Command_Len = 150;
 
 /// list structers///
-typedef struct {
+typedef struct Node Node;
+
+struct Node{
 
     elem_t value;
     Node* next;
     Node* prev;
-
-} Node;
+} ;
 
 typedef struct {
 
@@ -30,6 +31,7 @@ typedef struct {
 
 enum List_params {
 
+    Poison        = 0XDEADBABE,
     ListInitSize  = 0,
     One_Node      = 1,
 };
@@ -57,7 +59,7 @@ int ListInsertLeft(List* list, elem_t value, int logic_id);
 
 void InsertFromTail(List* list, elem_t value, int logic_id);
 
-void InsertFromLeft(List* list, elem_t value, int logic_id);
+void InsertFromHead(List* list, elem_t value, int logic_id);
 
 int FindFirstListValue(List* list, elem_t value);
 
@@ -66,3 +68,5 @@ int DeleteNode(List* list, int logic_id);
 void ListDestructor(List* list);
 
 void ListDump(List* list);
+
+void ListDestructor(List* list);
