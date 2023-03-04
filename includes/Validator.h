@@ -7,5 +7,6 @@
         fprintf(stderr, "" White "%s:%d:" Red " error:" Grey "%s\n\t| " Blue " \t%s " Grey " "                                   \
         "\n\t|\n", __FILE__, __LINE__, #text, #expression);                                                                       \
         __VA_ARGS__;                                                                                                               \
-    }  
+    }
+    
 #endif

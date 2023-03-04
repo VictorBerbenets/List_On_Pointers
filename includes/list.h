@@ -32,6 +32,8 @@ typedef struct {
 enum List_params {
 
     Poison        = 0XDEADBABE,
+    INSERT_TAIL   = 0xDEDFEED1,
+    INSERT_HEAD   = 0xDEDFEED2,
     ListInitSize  = 0,
     One_Node      = 1,
 };
@@ -57,13 +59,17 @@ int ListInsertRight(List* list, elem_t value, int logic_id);
 
 int ListInsertLeft(List* list, elem_t value, int logic_id);
 
-void InsertFromTail(List* list, elem_t value, int logic_id);
+void InsertNode(List* list, elem_t value, int logic_id);
 
-void InsertFromHead(List* list, elem_t value, int logic_id);
+Node* GetIdByOptimalWay(List* list, int logic_id);
 
 int FindFirstListValue(List* list, elem_t value);
 
 int DeleteNode(List* list, int logic_id);
+
+void DeleteTail(List* list);
+
+void DeleteHead(List* list);
 
 void ListDestructor(List* list);
 
