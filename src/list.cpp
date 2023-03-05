@@ -163,6 +163,7 @@ void DeleteHead(List* list) {
     list->head = right_neighbour;
     list->size--;
 }
+
 Node* GetIdByOptimalWay(List* list, int logic_id) {
 
     int path_length = 0;
@@ -184,10 +185,35 @@ Node* GetIdByOptimalWay(List* list, int logic_id) {
 
     return curr_node_ptr;
 }
+
 int FindFirstListValue(List* list, elem_t value) {
 
+    Node* node_ptr   = list->head;
+    int current_node = 0;
+
+    for (current_node = 1; current_node < list->size; current_node++, node_ptr = node_ptr->next) {
+        if (node_ptr->value == value) {
+            return current_node;
+        }
+    }
+    return VALUE_NOT_FOUND;
 }
 
+elem_t GetListValue(List* list, int logic_id) {
+
+    if (logic_id < 1 || logic_id > list->size) {
+        fprintf(stderr, "invalid logic id: %d\n", logic_id);
+        return INVALID_LOGIC_ID;
+    }
+
+    Node* node_ptr = list->head;
+    for (int current_node = 1; current_node < logic_id; current_node++) {
+        node_ptr = node_ptr->next;
+    }
+
+    elem_t return_value = node_ptr->value;
+    return return_value;
+}
 
 void ListDestructor(List* list) {
 

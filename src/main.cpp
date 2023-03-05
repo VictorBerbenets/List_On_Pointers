@@ -25,12 +25,19 @@ int main() {
     }
     ListDump(list);
 
+    printf("ID = %d\n", FindFirstListValue(&list, 30));
+
+    for (int i = 1; i <= list.size; i++) {
+        printf("value[%d] = %lg\n", i, GetListValue(&list, i));
+    }
+
     int q = list.size;
     for (int i = 0; i < q; i++) {
         DeleteNode(&list, 1);
     }
 
     ListDump(list);
+
     ListDestructor(&list);
 
     return 0;

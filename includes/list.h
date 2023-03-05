@@ -40,6 +40,7 @@ enum List_params {
     DELETE_TAIL        = 111,
     DELETE_Head        = 112,
     DELETE_LAST_NODE   = 113,
+    VALUE_NOT_FOUND    = -1,
     ListInitSize       = 0,
     Logic_Head         = 1,
     One_Node           = 1,
@@ -48,8 +49,8 @@ enum List_params {
 enum ListErrors {
 
     MEM_ALLOCATED_ERR   = 5353535, 
-    INVALID_LOGIC_ID    = -101,
-    INVALID_NODE_ID     = 100,
+    INVALID_LOGIC_ID    = 0XFEEDFAC1,
+    INVALID_NODE_ID     = 0XFEEDFAC2,
     CLOSE_FILE_ERROR    = 0XDEADFEED,
     OPEN_FILE_ERROR     = 0XDEADBABE,
 } ;
@@ -71,6 +72,8 @@ int ListInsertLeft(List* list, elem_t value, int logic_id);
 void InsertNode(List* list, elem_t value, int logic_id);
 
 Node* GetIdByOptimalWay(List* list, int logic_id);
+
+elem_t GetListValue(List* list, int logic_id);
 
 int FindFirstListValue(List* list, elem_t value);
 
