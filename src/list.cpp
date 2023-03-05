@@ -18,16 +18,7 @@ int ListInsertTail(List* list, elem_t value) {
 
     if (list->size == ListInitSize) {
 
-        list->head = new_tail;
-        list->head->next = nullptr;
-        list->head->prev = nullptr;
-
-        list->tail = new_tail;
-        list->tail->value = value;
-        list->tail->next  = nullptr;
-        list->tail->prev  = nullptr;
-        list->size++;
-
+        InsertFirstNode(list, new_tail, value);
         return 0;
     }
     new_tail->prev   = list->tail;
@@ -46,16 +37,8 @@ int ListInsertHead(List* list, elem_t value) {
     Validator(new_head == nullptr, in Calloc: could not give memory, return MEM_ALLOCATED_ERR);
 
     if (list->size == ListInitSize) {
-        list->tail = new_head;
-        list->tail->next = nullptr;
-        list->tail->next = nullptr;
 
-        list->head = new_head;
-        list->head->value = value;
-        list->head->next  = nullptr;
-        list->head->prev  = nullptr;
-        list->size++;
-
+        InsertFirstNode(list, new_head, value);
         return 0;
     }
 
@@ -67,6 +50,16 @@ int ListInsertHead(List* list, elem_t value) {
     list->head->prev  = nullptr;
 
     list->size++;
+}
+
+void InsertFirstNode(List* list, Node* new_node, elem_t value) {
+
+        list->tail = new_node;
+        list->head = new_node;
+        list->head->value = value;
+        list->head->next  = nullptr;
+        list->head->prev  = nullptr;
+        list->size++;
 }
 
 int ListInsertRight(List* list, elem_t value, int logic_id) {
@@ -117,40 +110,39 @@ int ListInsertLeft(List* list, elem_t value, int logic_id) {
 }
 
 int DeleteNode(List* list, int logic_id) {
-    printf("logic id = %d\n", logic_id);
+
     if (logic_id < 1 || logic_id > list->size) {
         fprintf(stderr, "invalid logic id: %d\n", logic_id);
         return INVALID_LOGIC_ID;
     }
+    if (list->size == One_Node) {
+        DeleteLastNode(list);
+        return DELETE_LAST_NODE;
+    }
     if (logic_id == list->size) {
         DeleteTail(list);
-        return 0;
+        return DELETE_TAIL;
     }
-    if (logic_id == (ListInitSize + 1)) {
+    if (logic_id == Logic_Head) {
         DeleteHead(list);
-        return 0;
+        return DELETE_Head;
     }
     Node* node_to_del = GetIdByOptimalWay(list, logic_id);
-    // Node* left_neighbour  = node_to_del->prev;
-    // Node* right_neighbour = node_to_del->next;
-    fprintf(stderr, "line = %d\n", __LINE__);
-    // left_neighbour->next  = right_neighbour;
-    // right_neighbour->prev = left_neighbour;
-    // printf("not to del = %p\n", node_to_del);
-    // fprintf(stderr, "line = %d\n", __LINE__);
 
-    fprintf(stderr, "not to del value  = %lg\n", node_to_del->value);
-    // fprintf(stderr, "line = %d\n", __LINE__);
-
-    // printf("not to del value next  = %p\n", node_to_del->next);
-    // fprintf(stderr, "line = %d\n", __LINE__);
-
-    // printf("not to del value prev  = %p\n", node_to_del->prev);
-    // fprintf(stderr, "line = %d\n", __LINE__);
     node_to_del->prev->next = node_to_del->next;
     node_to_del->next->prev = node_to_del->prev;
 
     free(node_to_del);
+    list->size--;
+
+    return list->size;
+}
+
+void DeleteLastNode(List* list) {
+
+    list->head->value = Poison;
+    list->head->prev  = nullptr;
+    list->head->next  = nullptr;
     list->size--;
 }
 
@@ -175,7 +167,6 @@ Node* GetIdByOptimalWay(List* list, int logic_id) {
 
     int path_length = 0;
     Node* curr_node_ptr = nullptr;
-    printf("list size = %d\n", list->size);
     if (logic_id >= list->size/2) {   
         path_length   = list->size - logic_id; 
         curr_node_ptr = list->tail;
@@ -211,9 +202,12 @@ void ListDestructor(List* list) {
     }
 }
 
-void ListDump(List* list) {
+void _ListDump(List* list, const char* file, const char* func, int line) {
     
     Node* curr_ptr = list->head;
+    printf("\n" Blue "******************************" Blinking "List Dump" Blue "******************************" Grey "\n");
+    PrintFuncPosition();
+    printf("\nsize: %d;\thead: %p;\t tail: %p\n", list->size, list->head, list->tail);
     printf("From Head to Tail:\n");
     for (int i = 1; i <= list->size && curr_ptr != nullptr; i++, curr_ptr = curr_ptr->next) {
         printf("[%d] = %lg\n", i, curr_ptr->value);
@@ -224,4 +218,5 @@ void ListDump(List* list) {
     for (int i = 1; i <= list->size && curr_ptr != nullptr; i++, curr_ptr = curr_ptr->prev) {
         printf("[%d] = %lg\n", i, curr_ptr->value);
     }
+    printf("\n");
 }
