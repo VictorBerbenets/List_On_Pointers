@@ -11,6 +11,49 @@
 #define PrintFuncPosition() fprintf(stderr, "%s was called from:\n" White " %s:%s:%d\n" Grey "", __PRETTY_FUNCTION__, file, func, line)
 #define ListDump(list) _ListDump(&list, __FILE__, __PRETTY_FUNCTION__, __LINE__)
 
+
+#define DotPrint(...) fprintf(dot_file, __VA_ARGS__);
+
+#define DotStartGraph(file_name)         \
+    const int Name_Size = 100;            \
+    char file[Name_Size] = file_name;      \
+    FILE* dot_file = fopen(file, "w+");     
+
+#define DotSetRankdir(dir) fprintf(dot_file, "rankdir = %s\n", #dir);
+
+#define DotSetGraph(fillcolor, ranksep, nodesep, style, color, penwidth) \
+    fprintf(dot_file, "graph [fillcolor = %s, ranksep = %lg, nodesep = %lg, style = \"%s\", color = %s, penwidth = %lg];\n",\
+    fillcolor, ranksep, nodesep, style, color, penwidth);
+
+#define DotSetEdge(color, arrowhead, arrowsize, penwidth) \
+    fprintf(dot_file, "edge [color = %s, arrowhead = %s, arrowsize = %lg, penwidth = %lg];\n", color, arrowhead, arrowsize,\
+    penwidth);
+
+#define DotSetNodeStyle(shape, style, fillcolor, fontcolor, margin) \
+    fprintf(dot_file, "node [shape=%s, style=%s, fillcolor=%s, fontcolor=%s, margin = %s];\n", \
+    #shape, #style, #fillcolor, #fontcolor, #margin);
+
+#define DotSetNode(node_id, shape, style, fillcolor, label) \
+    fprintf(dot_file, "node%d [shape=%s, style=%s, fillcolor=%s, label = %s];\n", \
+    node_id, shape, style, fillcolor, label);
+
+#define DotSetLinkStyle()
+
+#define DotCreateNode()
+
+
+#define DotEndGraph(file_name)                 \
+    DotPrint("}")                               \
+    fclose(file_name);                     
+
+#define DotPrintGraph(file, picture_numb)                                           \
+    const int dot_len = 150;                                                         \
+    char dot_png[dot_len] = "";                                                       \
+    sprintf(dot_png, "dot -Tpng %s -o data//graph_%d.png", file, picture_numb);        \
+    system(dot_png);
+
+
+
 typedef double elem_t;
 const int Max_Dot_Command_Len = 150;
 
@@ -29,6 +72,7 @@ typedef struct {
     Node* tail;
     Node* head;
     int size;
+    int Dump_Number;
 } List;
 /////////////////////
 
@@ -89,4 +133,6 @@ void ListDestructor(List* list);
 
 void ListDestructor(List* list);
 
-void _ListDump(List* list, const char* file, const char* func, int line) ;
+void _ListDump(List* list, const char* file, const char* func, int line);
+
+int ListGraph(List *list);
