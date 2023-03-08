@@ -298,24 +298,24 @@ int ListGraph(List *list) {
     DotPrint("\nHead -> node%d\n", 1);
     DotPrint("Tail -> node%d -> node%d\n", list->size, list->size + 1);
     DotPrint("node%d -> node%d\n", 0, 1);
-    // DotPrint("node%d -> node%d\n", list->size);
     
     // making visible connections
     DotPrint("edge[style=solid, constraint = false]")
-    DotPrint("node%d:p -> node%d;", 1, 0);
-    DotPrint("node%d:n ", 1);
+    if (list->size > 0) {
+        DotPrint("node%d:p -> node%d;", 1, 0);
+        DotPrint("node%d:n ", 1);
 
-    int phys_node_id = 2;
-    for ( ; phys_node_id <= list->size; phys_node_id++) {
-        DotPrint("-> node%d;", phys_node_id);
-        DotPrint("node%d:p ->node%d;", phys_node_id, phys_node_id - 1);
-        DotPrint("node%d:n ", phys_node_id);
+        int phys_node_id = 2;
+        for ( ; phys_node_id <= list->size; phys_node_id++) {
+            DotPrint("-> node%d;", phys_node_id);
+            DotPrint("node%d:p ->node%d;", phys_node_id, phys_node_id - 1);
+            DotPrint("node%d:n ", phys_node_id);
+        }
+        DotPrint(" -> node%d\n", phys_node_id);
     }
-    DotPrint(" -> node%d\n", phys_node_id);
 
     DotPrint("Head -> node%d\n",  1);
     DotPrint("Tail -> node%d\n",  list->size);
-    // DotPrint("node%d->node%d\n", list->size, list->size + 1);
 
     DotEndGraph(dot_file);
     DotPrintGraph(file, list->Dump_Number);

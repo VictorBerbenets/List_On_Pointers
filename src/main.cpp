@@ -7,18 +7,22 @@ int main() {
     int size  = 5;
 
     ListInsertHead(&list, 1000);
+    ListDump(list);
 
     for (int i = 0; i < size; i++) {
         ListInsertLeft(&list, i, 1);
     }
+    ListDump(list);
 
     for (int i = 0; i < size; i++) {
         ListInsertRight(&list, i*5, 5);
     }
+    ListDump(list);
 
     for (int i = 0; i < size; i++) {
         ListInsertTail(&list, i*10);
     }
+    ListDump(list);
 
     for (int i = 0; i < size; i++) {
         ListInsertHead(&list, i*15);
@@ -35,7 +39,6 @@ int main() {
     for (int i = 0; i < q; i++) {
         DeleteNode(&list, 1);
     }
-
     ListDump(list);
 
     ListDestructor(&list);

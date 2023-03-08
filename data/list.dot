@@ -5,7 +5,7 @@ digraph List {
 	rankdir  = LR;
 graph [fillcolor = lightgreen, ranksep = 1.3, nodesep = 0.5, style = "rounded", color = green, penwidth = 2];
 edge [color = darkgrey, arrowhead = onormal, arrowsize = 1, penwidth = 1.2];
-List_Inform [shape = record, color = purple, style = solid, label = "size:0 | Dump number: 1"]
+List_Inform [shape = record, color = purple, style = solid, label = "size:0 | Dump number: 5"]
 
 node1 [shape = record, color = red, style = solid, label = "logic id:1|<p> prev:(nil)| value:3.73593e+09|<n>next:(nil)"]
 node0 [shape = record, color = red, style = solid, label = "logic id:0|<p> prev:(nil)| value:3.73593e+09|<n>next:(nil)"]
@@ -18,7 +18,6 @@ edge[style=invis, constraint = true]
 Head -> node1
 Tail -> node0 -> node1
 node0 -> node1
-edge[style=solid, constraint = false]node1:p -> node0;node1:n  -> node2
-Head -> node1
+edge[style=solid, constraint = false]Head -> node1
 Tail -> node0
 }
